@@ -13,21 +13,50 @@
 #'
 #' @param values.1 A numeric vector of values
 #' @param values.2 A numeric vector of values
+#' @param window.proportion What proportion of the data will be used to create each local model - Default 0.01
 #' @export
 #' @examples
 #' intensity.difference()
 
-intensity.difference <- function (values.1,values.2) {
+intensity.difference <- function (
+  values.1,
+  values.2,
+  window.proportion=0.01,
+  ) {
+
+  if (!is.numeric(values.1)) {
+    stop("The data in values.1 was not numeric")
+  }
+
+  if (!is.numeric(values.2)) {
+    stop("The data in values.2 was not numeric")
+  }
+
+
+  if (length(values.1) != length(values.2)) {
+    stop("The two vectors passed to intensity.difference must be the same length")
+  }
+
+  return.frame <- data.frame(values.1,values.2)
+
   average.values <- (values.1+values.2)/2
 
   order(average.values) -> sorted.indices
 
   order(sorted.indices) -> reverse.lookup
 
+  window.size <- as.integer(length(values.1)*window.proportion)
+  half.window.size <- as.integer(window.size/2)
+
+  if (half.window.size < 1) {
+    stop(paste("Sample size is too small when using window.proportion of",window.proportion))
+  }
+
+
   sapply(1:length(values.1), function(x) {
-    start <- reverse.lookup[x]-250
+    start <- reverse.lookup[x]-half.window.size
     if (start < 0) start <- 0
-    end <- start+500
+    end <- start+window.size
     if (end > length(values.1)) {
       end <- length(values.1)
       start <- end-500
@@ -47,5 +76,8 @@ intensity.difference <- function (values.1,values.2) {
     return (local.p)
 
   }
-  )
+  ) -> return.frame$p.value
+
+  return.frame$corr.p.value <- p.adjust(return.frame$p.value,method="fdr")
+
 }
