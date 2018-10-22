@@ -7,11 +7,15 @@ The intensity difference test is a 'magnitude of effect' test operated over a la
 
 ## Installation
 ```
+install.packages("devtools")
+library(devtools)
 install_github("s-andrews/intensitydiff")
 ```
 
 ## Usage
 ```
+library(intensitydiff)
+
 intensity.difference(vector.1,vector.2) -> results
 
 intensity.diff.plot(results)
