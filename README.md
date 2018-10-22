@@ -1,6 +1,8 @@
 # IntensityDiff
 An R package to perform the intensity difference statistical calculation.
 
+![Diagnostic screenshot](https://raw.githubusercontent.com/s-andrews/intensitydiff/master/man/diagnostic_plots.png)
+
 The intensity difference test is a 'magnitude of effect' test operated over a large set of unreplicated paired data values.  The constraint for the test is that the average difference between the two sets of values should be zero, and that the noise in the difference should be related to the magnitude of the mean of the two values.  This constraint applies to many count based datasets but can potentially apply in a large number of datatypes.
 
 ## Installation
