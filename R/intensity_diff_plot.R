@@ -43,8 +43,8 @@ intensity.diff.plot <- function (
     ylim=c(0-plot.limit,plot.limit),
     xlim=range(intensity.diff.data$average.intensity),
     xlab="Average intensity",
-    ylab="Raw difference",
-    main="Raw difference MA plot hits"
+    ylab="Z-score difference",
+    main="Z-score difference MA plot hits"
   )
   
   points (
@@ -67,7 +67,7 @@ intensity.diff.plot <- function (
   
   legend(
     "topright",
-    legend = c("Not significant","Significant without correction","Significant after correction"),
+    legend = c("NS","p<0.05","FDR<0.05"),
     fill=c("grey","blue2","red2")
   )
   
@@ -115,7 +115,7 @@ intensity.diff.plot <- function (
   
   legend(
     "topright",
-    legend = c("Not significant","Significant without correction","Significant after correction"),
+    legend = c("NS","p<0.05","FDR<0.05"),
     fill=c("grey","blue2","red2")
   )
     
@@ -158,7 +158,7 @@ intensity.diff.plot <- function (
     density(diffs[diffs<=plot.limit & diffs >= (0-plot.limit)]),
     las=1,
     xlim=c(0-plot.limit,plot.limit),
-    xlab="Difference between condition",
+    xlab="Difference between conditions",
     main="Distribution of difference values"
     )
   
