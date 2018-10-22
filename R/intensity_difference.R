@@ -21,7 +21,7 @@
 intensity.difference <- function (
   values.1,
   values.2,
-  window.proportion=0.01,
+  window.proportion=0.01
   ) {
 
   if (!is.numeric(values.1)) {
@@ -37,15 +37,19 @@ intensity.difference <- function (
     stop("The two vectors passed to intensity.difference must be the same length")
   }
 
-  return.frame <- data.frame(values.1,values.2)
+  return.frame <- data.frame(values.1,values.2,index=1:length(values.1))
 
-  average.values <- (values.1+values.2)/2
+  (values.1+values.2)/2 -> return.frame$average.intensity
 
-  order(average.values) -> sorted.indices
+  values.1-values.2 -> return.frame$difference
 
-  order(sorted.indices) -> reverse.lookup
+  return.frame[order(return.frame$average.intensity),] -> return.frame
 
-  window.size <- as.integer(length(values.1)*window.proportion)
+  return.frame$p.value <- 1
+  return.frame$local.sd <- 0
+  return.frame$z.score <- 0
+
+  window.size <- as.integer(nrow(return.frame)*window.proportion)
   half.window.size <- as.integer(window.size/2)
 
   if (half.window.size < 1) {
@@ -53,31 +57,38 @@ intensity.difference <- function (
   }
 
 
-  sapply(1:length(values.1), function(x) {
-    start <- reverse.lookup[x]-half.window.size
+  sapply(1:nrow(return.frame), function(x) {
+    start <- x-half.window.size
     if (start < 0) start <- 0
     end <- start+window.size
-    if (end > length(values.1)) {
-      end <- length(values.1)
-      start <- end-500
+    if (end > nrow(return.frame)) {
+      end <- nrow(return.frame)
+      start <- end-window.size
     }
 
-    local.diffs <- values.1[sorted.indices[start:end]]-values.2[sorted.indices[start:end]]
+    local.diffs <- return.frame$difference[start:end]
 
     # We assume a mean of 0 and calculate the sd
     sqrt(mean(local.diffs*local.diffs)) -> local.sd
 
     # Now we work out the p.value for the value we're actually
     # looking at in the context of this distibution
-    pnorm(values.1[x]-values.2[x],mean=0,sd=local.sd) -> local.p
+    pnorm(return.frame$difference[x],mean=0,sd=local.sd) -> local.p
 
     if (local.p >0.5) local.p <- (1 - local.p)
 
-    return (local.p)
+    return.frame$z.score[x] <<- return.frame$difference[x] / local.sd
+
+    return.frame$local.sd[x] <<- local.sd
+    return.frame$p.value[x] <<- local.p
 
   }
-  ) -> return.frame$p.value
+  )
 
-  return.frame$corr.p.value <- p.adjust(return.frame$p.value,method="fdr")
+  return.frame$fdr.value <- p.adjust(return.frame$p.value,method="fdr")
+
+  return.frame[order(return.frame$index),] -> return.frame
+
+  return(return.frame)
 
 }

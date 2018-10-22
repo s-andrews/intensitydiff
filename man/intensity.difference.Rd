@@ -4,12 +4,14 @@
 \alias{intensity.difference}
 \title{Intensity difference test}
 \usage{
-intensity.difference(values.1, values.2)
+intensity.difference(values.1, values.2, window.proportion = 0.01)
 }
 \arguments{
 \item{values.1}{A numeric vector of values}
 
 \item{values.2}{A numeric vector of values}
+
+\item{window.proportion}{What proportion of the data will be used to create each local model - Default 0.01}
 }
 \description{
 This function calculates an intensity corrected z-score
