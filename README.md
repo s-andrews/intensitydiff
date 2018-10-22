@@ -9,11 +9,11 @@ install_github("s-andrews/intensitydiff")
 ```
 
 ## Usage
-'''
+```
 intensity.difference(vector.1,vector.2) -> results
 
 intensity.diff.plot(results)
-'''
+```
 
 ## Calculation
 The process for the calculation is as follows.
