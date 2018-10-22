@@ -3,10 +3,39 @@
 #' This function takes the output from the intensity_difference
 #' function and draws a number of diagnostic plots to help to 
 #' evaluate the results of the analysis
+#' 
+#' The function will split the current plot area into 4 sections
+#' and will plot 4 separate graphs:
+#' 
+#' 1. The distribution of difference values from the data.  This 
+#'    should ideally form a single coherent distribution with a 
+#'    median of zero.
+#'    
+#' 2. The relationship between average intensity and standard
+#'    deviation. The entire point of this test is that there 
+#'    should be linkage between these two values, so if you don't
+#'    see a relationship here then this test is not appropriate
+#'    to use.  Normally you would expect that the standard deviation
+#'    would fall as the average intensity rises.
+#'    
+#' 3. An MA plot showing the difference between datasets plotted
+#'    against the average intensity.  The colouring of points on
+#'    the plot reflects whether they were found to be signficant
+#'    by the statistical test which was run.  The colouring is
+#'    grey (not significant), blue (significant by raw p-value), 
+#'    but not after multiple testing correction, red (significant
+#'    after multiple testing correction). You should always see 
+#'    the blue points occupying the outer 5% of the distribution.
+#'    You may or may not see any red points depending on the 
+#'    behaviour of your data.
+#'    
+#' 4. A Z-score MA plot.  This is the same as 3 but using the 
+#'    normalised z-score differences instead of the raw differences.
+#'    You would expect that the width of the cloud of points should
+#'    be roughly equal across this plot, and there shouldn't be an
+#'    intensity dependent effect visible across the plot.
 #'
-#' @param values.1 A numeric vector of values
-#' @param values.2 A numeric vector of values
-#' @param window.proportion What proportion of the data will be used to create each local model - Default 0.01
+#' @param intensity.diff.data The output data frame from the intensity.difference function
 #' @export
 #' @examples
 #' intensity_diff_plot()
