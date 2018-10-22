@@ -1,10 +1,10 @@
 Package: intensitydiff
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Title: Intensity Dependent Magntiude of Effect Test
+Version: 0.1.0.1000
+Authors@R: person("Simon", "Andrews", email = "simon.andrews@babraham.ac.uk", role = c("aut", "cre"))
+Description: Performs a statisitcal test to look for unusually large changes between two vectors of unreplicated values. The test is based on the assumption of a relationship between the amount of change and the mean value of the data in the two vectors. The test constructs a local model of the differences around each point and uses a z-score statistic to identify points with unusually high differences compared to a local background.
 Depends: R (>= 3.4.0)
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
