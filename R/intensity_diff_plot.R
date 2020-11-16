@@ -195,7 +195,8 @@ intensity.diff.plot <- function (
 
 }
 
-new_plot <- function(){
- plot(1:10)
+new_plot_here <- function(){
+ plot(1:100)
 }
+
 
