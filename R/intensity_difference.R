@@ -14,6 +14,7 @@
 #' @param values.1 A numeric vector of values
 #' @param values.2 A numeric vector of values
 #' @param window.proportion What proportion of the data will be used to create each local model - Default 0.01
+#' @param recenter Whether to recenter the values in each window via median centering Default FALSE - assumes a median difference of 0
 #' @export
 #' @examples
 #' intensity.difference()
@@ -87,7 +88,7 @@ intensity.difference <- function (
 
     if (local.p >0.5) local.p <- (1 - local.p)
 
-    return.frame$z.score[x] <<- return.frame$difference[x] / local.sd
+    return.frame$z.score[x] <<- return.frame$difference[x] - ref_mean / local.sd
 
     return.frame$local.sd[x] <<- local.sd
     return.frame$p.value[x] <<- local.p
