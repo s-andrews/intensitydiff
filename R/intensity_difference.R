@@ -88,7 +88,7 @@ intensity.difference <- function (
 
     if (local.p >0.5) local.p <- (1 - local.p)
 
-    return.frame$z.score[x] <<- return.frame$difference[x] - ref_mean / local.sd
+    return.frame$z.score[x] <<- (return.frame$difference[x] - ref_mean) / local.sd
 
     return.frame$local.sd[x] <<- local.sd
     return.frame$p.value[x] <<- local.p
