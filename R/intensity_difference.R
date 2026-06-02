@@ -21,7 +21,8 @@
 intensity.difference <- function (
   values.1,
   values.2,
-  window.proportion=0.01
+  window.proportion=0.01,
+  recenter=FALSE
   ) {
 
   if (!is.numeric(values.1)) {
@@ -68,12 +69,21 @@ intensity.difference <- function (
 
     local.diffs <- return.frame$difference[start:end]
 
+    # We assume a mean difference of 0 unless they asked
+    # us to recenter
+    ref_mean <- 0
+
+    if (recenter) {
+      ref_mean <- median(local.diffs)
+    }
+    local.diffs <- local.diffs - ref_mean
+    
     # We assume a mean of 0 and calculate the sd
-    sqrt(mean(local.diffs*local.diffs)) -> local.sd
+    sd(local.diffs) -> local.sd
 
     # Now we work out the p.value for the value we're actually
     # looking at in the context of this distibution
-    pnorm(return.frame$difference[x],mean=0,sd=local.sd) -> local.p
+    pnorm(return.frame$difference[x]-ref_mean,mean=0,sd=local.sd) -> local.p
 
     if (local.p >0.5) local.p <- (1 - local.p)
 
